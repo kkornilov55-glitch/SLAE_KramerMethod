@@ -91,6 +91,30 @@ namespace lab1
                 Console.WriteLine(SLAU); //Вывод СЛАУ
 
                 int det = Determinant(massA);
+
+
+                //Определение несовместности/неопределённости
+
+                if (det == 0) //Система либо несовместна, либо неопределена
+                {
+                    //Создаём расширенную матрицу
+                    int[,] extendedMatrix = new int[massA.GetLength(0), massA.GetLength(1) + 1]; //Матрица с +1 столбцом для свободных членов
+
+                    //Заполняем
+                    for(int i = 0; i < massA.GetLength(0); i++)
+                    {
+                        int j;
+                        for (j = 0; j < massA.GetLength(1); j++)
+                        {
+                            extendedMatrix[i, j] = massA[i, j]; //Добавляем все коэффициенты
+                        }
+                        extendedMatrix[i, j + 1] = massB[i]; //Добавляем свободный член
+                    }
+
+
+                }
+
+
                 int[] x = new int[n];
                 for (int i = 0; i < n; i++)
                 {
@@ -186,6 +210,72 @@ namespace lab1
                 
             }
             return result;
+        }
+    }
+    public static class WorkWithStrings
+    {
+        public static int[,] SwapStrings(int[,] extMass, int str1, int str2)
+        {
+            int width = extMass.GetLength(1);
+            int height = extMass.GetLength(0);
+
+            int[,] resultMass = new int[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == str1)
+                        resultMass[i, j] = extMass[str2, j];
+                    else if (i == str2)
+                        resultMass[i, j] = extMass[str1, j];
+                    else
+                        resultMass[i, j] = extMass[i, j];
+                }
+            }
+
+            return resultMass;
+        }
+
+        public static int[,] StringDivideNumber(int[,] extMass, int str, int num)
+        {
+            int width = extMass.GetLength(1);
+            int height = extMass.GetLength(0);
+
+            int[,] resultMass = new int[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == str)
+                        resultMass[i, j] = extMass[i, j] / num;
+                    else
+                        resultMass[i, j] = extMass[i, j];
+                }
+            }
+
+            return resultMass;
+        }
+        public static int[,] StrMinusStr(int[,] extMass, int str1, int str2)
+        {
+            int width = extMass.GetLength(1);
+            int height = extMass.GetLength(0);
+
+            int[,] resultMass = new int[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == str1)
+                        resultMass[i, j] = extMass[i, j] - extMass[str2, j];
+                    else
+                        resultMass[i, j] = extMass[i, j];
+                }
+            }
+
+            return resultMass;
         }
     }
 }
